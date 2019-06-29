@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Weather vs Meal</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <main>
+      <h1>Weather VS Meal</h1>
+      <section>
+        <form id="search-meal" action="/some-server-endpoint">
+          <label>weather of city</label>
+          <input id="js-city" name="js-city" type="text" />
+          <label>choose your main meal </label>
+          <input id="js-main-meal" name="js-main-meal" type="text" />
+          <button type="submit">Submit</button>
+        </form>
+      </section>
+      
+      <p id="js-error-message-weather" class="error-message"></p>
+      <p id="js-error-message-food" class="error-message"></p>
+      <section class="results hidden weather">
+        <p id="result-weather"></p> 
+        
+      </section>
+      <section class="results hidden meal-plan">
+        <h2>Your Meal plan</h2>
+        <button class="open-button" onclick="openForm()">add another meal</button>
+        <div class="form-popup" id="myForm">
+          <form action="/some-server-endpoint" class="form-container" id="submit-add-meal">
+            <h1>Search Meal</h1>
+
+            <label for="meal"><b>Meal: </b></label>
+            <input type="text" placeholder="meal(eg. fish)" id="add-meal" required>
+
+            <label for="calroies"><b>calroies</b></label>
+            <input type="text" placeholder="calroies range(eg. 100-300)" id="add-calroies">
+            <label for="excluded"><b>things you don't want to be in the meal</b></label>
+            <input type="text" placeholder="eg.onion" id="add-excluded">                     
+
+            <button type="submit" class="btn">Search</button>
+            <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+          </form>
+        </div>
+          
+        <ul id="meal-list">
+        </ul>
+        <label id="total-cal"></label>
+      </section>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
