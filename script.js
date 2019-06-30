@@ -161,8 +161,8 @@ function getPlan(mainMeal,city) {
     seekFood(mainMeal, cals[0]);
   }
   seekFood(sub_meal, cals[1]);
- // seekFood(fruit, cals[2]);
- // seekFood(veg, cals[3]);
+  seekFood(fruit, cals[2]);
+  seekFood(veg, cals[3]);
  // seekFood(nut, cals[4]);
   
 }
