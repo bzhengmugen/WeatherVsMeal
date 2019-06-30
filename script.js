@@ -27,6 +27,7 @@ function KtoF(temperture){
 function makeMeal(responseJson){
   const cal=responseJson.recipe.calories/responseJson.recipe.yield;
   totalCal += cal;
+  console.log(totalCal);
   return `<li>
     <h2>${responseJson.recipe.label}</h2>
     <img src=${responseJson.recipe.image} alt=${responseJson.recipe.source}>
@@ -96,6 +97,7 @@ function seekFood(target, cal){
 
   const queryString = formatQueryParams(params)
   const url = recipeUrl + '?' + queryString;
+
   fetch(url)
     .then(response => {
       if (response.ok) {
@@ -159,10 +161,10 @@ function getPlan(mainMeal,city) {
     seekFood(mainMeal, cals[0]);
   }
   seekFood(sub_meal, cals[1]);
-  seekFood(fruit, cals[2]);
-  seekFood(veg, cals[3]);
+ // seekFood(fruit, cals[2]);
+ // seekFood(veg, cals[3]);
  // seekFood(nut, cals[4]);
-  $('#total-cal').val("Total Calories: " + totalCal);
+  
 }
 
 function openForm() {
@@ -177,7 +179,7 @@ function watchAddMeal(){
   $('#submit-add-meal').submit(event => {
     event.preventDefault();
     const mealName = $('#add-meal').val();
-    const cal = $('#add-calroies').val();
+    const cal = $('#add-calories').val();
     const excluded = $('#add-excluded').val();
     console.log(mealName);
     console.log(cal);
@@ -218,6 +220,9 @@ function handleRemove(){
 
   });
 }
+function updateCal(){
+  $("#total-cal").text(`total calories: ${totalCal}`);
+}
 
 function watchForm() {
   $('#search-meal').submit(event => {
@@ -225,9 +230,9 @@ function watchForm() {
     const mainMeal = $('#js-main-meal').val();
     const searchCity = $('#js-city').val();
     getPlan(mainMeal,searchCity);
+    updateCal();
   });
   handleRemove();
 }
-
 $(watchForm);
 $(watchAddMeal);
