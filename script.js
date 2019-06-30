@@ -96,7 +96,6 @@ function seekFood(target, cal){
 
   const queryString = formatQueryParams(params)
   const url = recipeUrl + '?' + queryString;
-calroies
   fetch(url)
     .then(response => {
       if (response.ok) {
