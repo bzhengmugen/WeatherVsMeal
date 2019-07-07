@@ -10,13 +10,13 @@
   <body>
     <main>
       <h1>Weather VS Meal</h1>
-      <section>
-        <form id="search-meal" action="/some-server-endpoint">
-          <label>weather of city</label>
-          <input id="js-city" name="js-city" type="text" />
-          <label>choose your main meal </label>
-          <input id="js-main-meal" name="js-main-meal" type="text" />
-          <button type="submit">Submit</button>
+      <section class="weather">
+        <form class="form-container" id="search-meal" action="/some-server-endpoint">
+          <label>City name:</label>
+          <input id="js-city" name="js-city" type="text" placeholder="new york" required/>
+          <label>Main meal (if any)</label>
+          <input id="js-main-meal" name="js-main-meal" type="text" placeholder="burger"/>
+          <button type="submit" class="btn">Submit</button>
         </form>
       </section>
       
@@ -37,7 +37,7 @@
             <input type="text" placeholder="meal(eg. fish)" id="add-meal" required>
 
             <label for="calroies"><b>calroies</b></label>
-            <input type="text" placeholder="calroies range(eg. 100-300)" id="add-calroies">
+            <input type="text" placeholder="calroies range(eg. 100-300)" id="add-calories">
             <label for="excluded"><b>things you don't want to be in the meal</b></label>
             <input type="text" placeholder="eg.onion" id="add-excluded">                     
 
@@ -48,7 +48,7 @@
           
         <ul id="meal-list">
         </ul>
-        <label id="total-cal"></label>
+        <label id="total-cal" name="total-calories"></label>
       </section>
     </main>
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>

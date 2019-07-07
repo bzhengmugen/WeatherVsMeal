@@ -13,6 +13,7 @@ const cold = 50;
 let foodSet = 0;
 let weatherId = 80;
 let totalCal = 0;
+let getWeather = false;
 function formatQueryParams(params) {
   const queryItems = Object.keys(params)
     .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
@@ -25,7 +26,7 @@ function KtoF(temperture){
 }
 
 function makeMeal(responseJson){
-  const cal=responseJson.recipe.calories/responseJson.recipe.yield;
+  const cal=(responseJson.recipe.calories/responseJson.recipe.yield).toFixed(2);
   totalCal += cal;
   console.log(totalCal);
   return `<li>
@@ -61,6 +62,10 @@ function displayResults(responseJson) {
 }
 
 function displayWeather(responseJson){
+  if(!getWeather) {
+    return;
+  }
+  
   console.log(responseJson);
   const temperture = KtoF(responseJson.main.temp).toFixed(2);
   const tempMax = KtoF(responseJson.main.temp_max).toFixed(2);
@@ -76,7 +81,6 @@ function displayWeather(responseJson){
   } else {
     foodSet = 1;
   }
-  //$('#result-weather').empty();
   $('.weather').removeClass('hidden');
   $('#result-weather').text(`City: ${cityName}/  The weather is: ${weatherSatuas}/ The average temperature is ${temperture}${String.fromCharCode(176)}f/ From the minimum temperature ${tempMin}${String.fromCharCode(176)}f to maximum ${tempMax}${String.fromCharCode(176)}f\n`);
   // weather overview: responseJson.weather.main
@@ -124,8 +128,35 @@ function makeUp(n){
 }
 
 function getPlan(mainMeal,city) {
+  checkWeather(city);
 
- 
+
+
+  
+  setTimeout(function(){
+    console.log("check meal"+getWeather);
+    if(!getWeather)return -1;
+    const sub_meal = SubMeal[makeUp(SubMeal.length)];
+    const fruit = Fruit[foodSet][makeUp(Fruit[foodSet].length)];
+    const veg = Vegetable[foodSet][makeUp(Vegetable[foodSet].length)];
+    const nut = Nuts[makeUp(Nuts.length)];
+    const cals = findId(weatherId);
+    $("#meal-list").empty();
+    if(mainMeal == ""){
+      seekFood(SubMeal[makeUp(SubMeal.length)],cals[0]);
+    } else{
+      seekFood(mainMeal, cals[0]);
+    }
+   seekFood(sub_meal, cals[1]);
+   seekFood(fruit, cals[2]);
+  // seekFood(veg, cals[3]);
+  // seekFood(nut, cals[4]);
+  },500);
+
+  
+}
+
+function checkWeather(city){
   const cparams = {
     q: city,
     appid : weatherKey,
@@ -144,11 +175,16 @@ function getPlan(mainMeal,city) {
       console.log(response.statusText);
       throw new Error(response.statusText);
     })
-    .then(responseJson => displayWeather(responseJson))
+    .then(function(responseJson){ getWeather = true;displayWeather(responseJson);})
     .catch(err => {
       $('#js-error-message-weather').text(`Something went wrong: city ${err.message}, please check your spell and the space between words`);
+      
   });
+}
 
+function checkMeal(mainMeal){
+  console.log("check meal"+getWeather);
+  if(!getWeather)return -1;
   const sub_meal = SubMeal[makeUp(SubMeal.length)];
   const fruit = Fruit[foodSet][makeUp(Fruit[foodSet].length)];
   const veg = Vegetable[foodSet][makeUp(Vegetable[foodSet].length)];
@@ -161,8 +197,8 @@ function getPlan(mainMeal,city) {
     seekFood(mainMeal, cals[0]);
   }
   seekFood(sub_meal, cals[1]);
-  seekFood(fruit, cals[2]);
-  seekFood(veg, cals[3]);
+ seekFood(fruit, cals[2]);
+ // seekFood(veg, cals[3]);
  // seekFood(nut, cals[4]);
   
 }
@@ -227,12 +263,17 @@ function updateCal(){
 function watchForm() {
   $('#search-meal').submit(event => {
     event.preventDefault();
+    $('#result-weather').empty();
+    $('#js-error-message-food').empty();
+    $('#js-error-message-weather').empty();
     const mainMeal = $('#js-main-meal').val();
     const searchCity = $('#js-city').val();
+    console.log("main meal: "+ mainMeal);
     getPlan(mainMeal,searchCity);
-    updateCal();
+    getWeather = false;
   });
   handleRemove();
 }
+
 $(watchForm);
 $(watchAddMeal);
