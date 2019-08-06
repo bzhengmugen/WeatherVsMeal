@@ -1,9 +1,24 @@
 # WeatherVsMeal
 
-# Sometime it is hard to decide what to eat for lunch.
+weatherVsMeal is a app to recommend meal plan base on the current weather condition.
 
-# This is a app to recommend different meal plan base on the current weather for the lunch/dinner. And have an general idea on how many calories they will get from it.
+## Motivation
 
-# user will input their city name and an optional main meal they want
+Some time it is hard for me to decied what I want to eat for dinner, and this is true for some other people as weel. This app recommend an meal plan depend on the current weather condition and temperature of the given city. User will get an suggested meal plan by enter the city name and edit the meal list for add and remove base on their habits.
 
-# after the search, user is able to delete the meal they don't like and search to add new meal.
+
+## Screenshots
+![introduction page](https://github.com/bzhengmugen/WeatherVsMeal/img/intro.png)
+
+![meal plan result](https://github.com/bzhengmugen/WeatherVsMeal/img/meal-list.png)
+
+## Built With
+
+*javascript
+*CSS
+*HTML
+*jQuery
+
+## Demo
+
+[live demo](https://bzhengmugen.github.io/WeatherVsMeal/)
