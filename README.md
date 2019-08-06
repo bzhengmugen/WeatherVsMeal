@@ -8,8 +8,10 @@ Some time it is hard for me to decied what I want to eat for dinner, and this is
 
 
 ## Screenshots
+introduction page:
 ![introduction page](https://github.com/bzhengmugen/WeatherVsMeal/blob/master/img/intro.png)
 
+meal plan result:
 ![meal plan result](https://github.com/bzhengmugen/WeatherVsMeal/blob/master/img/meal-list.png)
 
 ## Built With
