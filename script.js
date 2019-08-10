@@ -33,7 +33,7 @@ function makeMeal(responseJson) {
   const cal = (responseJson.recipe.calories / responseJson.recipe.yield).toFixed(2);
   WeatherVSMeal.totalCal += parseFloat(cal);
   WeatherVSMeal.foodCal.push(cal);
-  
+  updateCal();
   return `<li class="item">
     <div class="food-info">
     <h3>${responseJson.recipe.label}</h3>
@@ -121,11 +121,12 @@ function seekFood(target, cal) {
     .catch(err => {
       $('#js-error-message-food').text(`Something went wrong: ${err.message}`);
     });
+  
 }
 
 // locate the weather condition category in data.js
 function findId(id) {
-  console.log("the id is " + id);
+  
   for (let i = 0; i < MealPlan.length; i++) {
     if (MealPlan[i].id === id) {
       return MealPlan[i];
@@ -152,7 +153,7 @@ function getPlan(mainMeal, city) {
     const cals = mealPlan.calories;
     const wsug = mealPlan.description;
     $('#result-weather').append(`<p>Friendly suggestion: ${wsug}`);
-    console.log(cals);
+    
     $("#meal-list").empty();
     if (mainMeal == "") {
       seekFood(SubMeal[WeatherVSMeal.foodSet][makeUp(SubMeal[WeatherVSMeal.foodSet].length)], cals[0]);
@@ -160,8 +161,8 @@ function getPlan(mainMeal, city) {
       seekFood(mainMeal, cals[0]);
     }
      seekFood(sub_meal, cals[1]);
-    // seekFood(fruit, cals[2]);
-    // seekFood(veg, cals[3]);
+     seekFood(fruit, cals[2]);
+     seekFood(veg, cals[3]);
     // seekFood(nut, cals[4]);
   }, 800);
 
@@ -247,8 +248,9 @@ function watchAddMeal() {
 // remove meal from the meal list, and return to original form if the meal list is empty
 function handleRemove() {
   $('#meal-list').on('click', '.js-remove', function (event) {
-    totalCal -= parseFloat($(this).closest('li').find('.calor').text());
     
+    WeatherVSMeal.totalCal -= parseFloat($(this).closest('li').find('.calor').text());
+    updateCal();
     $(this).closest('li').remove();
     if($('#meal-list li').length == 0){
       $('.display').hide();
@@ -259,11 +261,7 @@ function handleRemove() {
     
   });
 }
-function handleAnalyze(){
-  $('.meal-plan').on('click','#analyze', function (event){
-    updateCal();
-  })
-}
+
 
 function updateCal() {
   $("#total-cal").text(`total calories: ${WeatherVSMeal.totalCal.toFixed(2)} kcal`);
@@ -282,12 +280,11 @@ function watchForm() {
     $('.display').show();
     const mainMeal = $('#js-main-meal').val();
     const searchCity = $('#js-city').val();
-    console.log("main meal: " + mainMeal);
+    
     getPlan(mainMeal, searchCity);
-    getWeather = false;
+    WeatherVSMeal.getWeather = false;
   });
   handleRemove();
-  handleAnalyze();
   watchAddMeal();
 }
 

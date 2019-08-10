@@ -9,9 +9,9 @@
   </head>
   <body>
     <main>
-      <h1>Weather VS Meal</h1>
+      <h1 role="title">Weather VS Meal</h1>
       
-      <section class="weather">
+      <section class="weather" role="weather search">
         <h2 id="intro">Can't decide what to eat for dinner?</h2>
         <form class="form-container" id="search-meal" action="/some-server-endpoint">
           <fieldset>
@@ -27,18 +27,18 @@
         </form>
       </section>
       
-      <p id="js-error-message-weather" class="error-message"></p>
-      <p id="js-error-message-food" class="error-message"></p>
-      <div class="display">
+      <p id="js-error-message-weather" class="error-message" role="error message" aria-live="polite"></p>
+      <p id="js-error-message-food" class="error-message" role="error message" aria-live="polite"></p>
+      <div class="display" role="content" >
         <section class="results hidden display-weather">
-          <div id="result-weather"></div> 
+          <div id="result-weather" aria-live="polite"></div> 
           
         </section>
         <section class="results hidden meal-plan">
           <h2>Your Meal plan</h2>
           <button class="open-button" onclick="openForm()">add another meal</button>
-          <button id="analyze">analyze</button>
-          <p id="total-cal"></p>
+          
+          <p id="total-cal" aria-live="polite"></p>
           
           <div class="form-popup" id="add-meal-container">
             <form action="/some-server-endpoint" class="form-container" id="submit-add-meal">
@@ -60,7 +60,7 @@
             </form>
           </div>
             
-          <ul id="meal-list">
+          <ul id="meal-list" role="meal content" aria-live="polite">
           </ul>
           
           
