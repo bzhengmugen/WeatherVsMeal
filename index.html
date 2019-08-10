@@ -15,12 +15,12 @@
         <h2 id="intro">Can't decide what to eat for dinner?</h2>
         <form class="form-container" id="search-meal" action="/some-server-endpoint">
           <fieldset>
-            City name:
+            <label>City name:
             <input id="js-city" name="js-city" type="text" placeholder="new york" required/>
-            
-            Main meal (optional):
+            </label>
+            <label>Main meal (optional):
             <input id="js-main-meal" name="js-main-meal" type="text" placeholder="burger"/>
-            
+            </label>
             <button type="submit" class="btn">Submit</button>
           </fieldset>
         </form>
@@ -30,7 +30,7 @@
       <p id="js-error-message-food" class="error-message"></p>
       <div class="display">
         <section class="results hidden display-weather">
-          <div id="result-weather"></div> 
+          <p id="result-weather"></p> 
           
         </section>
         <section class="results hidden meal-plan">
