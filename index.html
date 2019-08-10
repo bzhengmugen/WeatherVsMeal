@@ -8,10 +8,10 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <main role="main">
+    <main>
       <h1>Weather VS Meal</h1>
       
-      <section class="weather" role="region">
+      <section class="weather">
         <h2 id="intro">Can't decide what to eat for dinner?</h2>
         <form  class="form-container" id="search-meal" action="/some-server-endpoint">
           <fieldset>
@@ -31,10 +31,11 @@
       <p id="js-error-message-food" class="error-message" role="alertdialog" aria-live="polite"></p>
       <div class="display"  >
         <section class="results hidden display-weather">
+          <h2>Weather Condition</h2>
           <div id="result-weather" aria-live="polite"></div> 
           
         </section>
-        <section class="results hidden meal-plan" role="region">
+        <section class="results hidden meal-plan">
           <h2>Your Meal plan</h2>
           <button class="open-button" onclick="openForm()">add another meal</button>
           
