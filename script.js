@@ -1,17 +1,21 @@
 'use strict';
 
-const recipeId = "45863652";
-const recipeKey = "399ed1fed03e519081bace46986bf4e1";
-const recipeUrl = "https://api.edamam.com/search";
-const weatherUrl = "https://api.openweathermap.org/data/2.5/weather";
-const weatherKey = "20b505fe4a205d936679c559c49a4b31";
-const hot = 86;
-const cold = 50;
-let foodSet = 0;
-let weatherId = 800;
-let totalCal = 0;
-let foodCal = [];
-let getWeather = false;
+const WeatherVSMeal = {
+  recipeId: "45863652",
+  recipeKey: "399ed1fed03e519081bace46986bf4e1",
+  recipeUrl: "https://api.edamam.com/search",
+  weatherUrl: "https://api.openweathermap.org/data/2.5/weather",
+  weatherKey: "20b505fe4a205d936679c559c49a4b31",
+  hot: 86,
+  cold: 50,
+  foodSet: 0,
+  weatherId: 800,
+  totalCal: 0,
+  foodCal: [],
+  getWeather: false,
+
+}
+
 function formatQueryParams(params) {
   const queryItems = Object.keys(params)
     .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
@@ -27,8 +31,8 @@ function KtoF(temperture) {
 // generate one meal for the meal list 
 function makeMeal(responseJson) {
   const cal = (responseJson.recipe.calories / responseJson.recipe.yield).toFixed(2);
-  totalCal += parseFloat(cal);
-  foodCal.push(cal);
+  WeatherVSMeal.totalCal += parseFloat(cal);
+  WeatherVSMeal.foodCal.push(cal);
   
   return `<li class="item">
     <div class="food-info">
@@ -58,7 +62,7 @@ function displayResults(responseJson) {
 // display the weather section
 function displayWeather(responseJson) {
   // stop if their is error occurs during weather api fetch
-  if (!getWeather) {
+  if (!WeatherVSMeal.getWeather) {
     return;
   }
 
@@ -70,23 +74,23 @@ function displayWeather(responseJson) {
   const weatherSatuas = responseJson.weather[0].main;
   const cityName = responseJson.name;
   const wIcon = `http://openweathermap.org/img/wn/${responseJson.weather[0].icon}@2x.png`;
-  weatherId = parseInt(responseJson.weather[0].id / 10);
+  WeatherVSMeal.weatherId = parseInt(responseJson.weather[0].id / 10);
   // update the pointer to locate the meal search keyword in data.js
-  if (weatherId === 80) {
-    weatherId = responseJson.weather[0].id;
+  if (WeatherVSMeal.weatherId === 80) {
+    WeatherVSMeal.weatherId = responseJson.weather[0].id;
   }
 
-  if (temperture <= cold) {
-    foodSet = 0;
-  } else if (temperture >= hot) {
-    foodSet = 2;
+  if (temperture <= WeatherVSMeal.cold) {
+    WeatherVSMeal.foodSet = 0;
+  } else if (temperture >= WeatherVSMeal.hot) {
+    WeatherVSMeal.foodSet = 2;
   } else {
-    foodSet = 1;
+    WeatherVSMeal.foodSet = 1;
   }
   // enable the display for weather and add the result
   $('.display-weather').show();
   $('#result-weather').append(`<img src=${wIcon} >
-  <div id="weather-status">The weather condiation of <b>${cityName}</b> is:<b>${weatherSatuas}</b>"</div> 
+  <div id="weather-status">The weather condition of <b>${cityName}</b> is:<b>${weatherSatuas}</b>"</div> 
   <p>The average temperature is ${temperture}${String.fromCharCode(176)}f</p> <p>From the minimum temperature ${tempMin}${String.fromCharCode(176)}f to maximum ${tempMax}${String.fromCharCode(176)}f</p>
   `);
 }
@@ -96,15 +100,15 @@ function seekFood(target, cal) {
   
   const params = {
     q: target,
-    app_id: recipeId,
-    app_key: recipeKey,
+    app_id: WeatherVSMeal.recipeId,
+    app_key: WeatherVSMeal.recipeKey,
   };
   if (cal != "") {
     params.calories = cal;
   }
 
   const queryString = formatQueryParams(params)
-  const url = recipeUrl + '?' + queryString;
+  const url = WeatherVSMeal.recipeUrl + '?' + queryString;
 
   fetch(url)
     .then(response => {
@@ -139,26 +143,26 @@ function getPlan(mainMeal, city) {
   checkWeather(city);
   setTimeout(function () {
     
-    if (!getWeather) return -1;
-    const sub_meal = SubMeal[foodSet][makeUp(SubMeal[foodSet].length)];
-    const fruit = Fruit[foodSet][makeUp(Fruit[foodSet].length)];
-    const veg = Vegetable[foodSet][makeUp(Vegetable[foodSet].length)];
+    if (!WeatherVSMeal.getWeather) return -1;
+    const sub_meal = SubMeal[WeatherVSMeal.foodSet][makeUp(SubMeal[WeatherVSMeal.foodSet].length)];
+    const fruit = Fruit[WeatherVSMeal.foodSet][makeUp(Fruit[WeatherVSMeal.foodSet].length)];
+    const veg = Vegetable[WeatherVSMeal.foodSet][makeUp(Vegetable[WeatherVSMeal.foodSet].length)];
     const nut = Nuts[makeUp(Nuts.length)];
-    const mealPlan = findId(weatherId);
+    const mealPlan = findId(WeatherVSMeal.weatherId);
     const cals = mealPlan.calories;
     const wsug = mealPlan.description;
     $('#result-weather').append(`<p>Friendly suggestion: ${wsug}`);
     console.log(cals);
     $("#meal-list").empty();
     if (mainMeal == "") {
-      seekFood(SubMeal[foodSet][makeUp(SubMeal[foodSet].length)], cals[0]);
+      seekFood(SubMeal[WeatherVSMeal.foodSet][makeUp(SubMeal[WeatherVSMeal.foodSet].length)], cals[0]);
     } else {
       seekFood(mainMeal, cals[0]);
     }
      seekFood(sub_meal, cals[1]);
-     seekFood(fruit, cals[2]);
-     seekFood(veg, cals[3]);
-    
+    // seekFood(fruit, cals[2]);
+    // seekFood(veg, cals[3]);
+    // seekFood(nut, cals[4]);
   }, 800);
 
 
@@ -168,10 +172,10 @@ function getPlan(mainMeal, city) {
 function checkWeather(city) {
   const cparams = {
     q: city,
-    appid: weatherKey,
+    appid: WeatherVSMeal.weatherKey,
   };
   const cqueryString = formatQueryParams(cparams)
-  const curl = weatherUrl + '?' + cqueryString;
+  const curl = WeatherVSMeal.weatherUrl + '?' + cqueryString;
 
 
   
@@ -184,9 +188,9 @@ function checkWeather(city) {
       console.log(response.statusText);
       throw new Error(response.statusText);
     })
-    .then(function (responseJson) { getWeather = true; displayWeather(responseJson); })
+    .then(function (responseJson) { WeatherVSMeal.getWeather = true; displayWeather(responseJson); })
     .catch(err => {
-      $('#js-error-message-weather').text(`Something went wrong: city ${err.message}, please check your spell and the space between words`);
+      $('#js-error-message-weather').text(`Something went wrong: City ${err.message}, please check your spelling and the space between words`);
 
     });
 
@@ -212,8 +216,8 @@ function watchAddMeal() {
 
     const params = {
       q: mealName,
-      app_id: recipeId,
-      app_key: recipeKey,
+      app_id: WeatherVSMeal.recipeId,
+      app_key: WeatherVSMeal.recipeKey,
     };
     if (cal != "") {
       params.calories = cal;
@@ -223,7 +227,7 @@ function watchAddMeal() {
     }
     
     const queryString = formatQueryParams(params)
-    const url = recipeUrl + '?' + queryString;
+    const url = WeatherVSMeal.recipeUrl + '?' + queryString;
 
     fetch(url)
       .then(response => {
@@ -262,7 +266,7 @@ function handleAnalyze(){
 }
 
 function updateCal() {
-  $("#total-cal").text(`total calories: ${totalCal.toFixed(2)} kcal`);
+  $("#total-cal").text(`total calories: ${WeatherVSMeal.totalCal.toFixed(2)} kcal`);
 }
 
 // main function
@@ -284,7 +288,8 @@ function watchForm() {
   });
   handleRemove();
   handleAnalyze();
+  watchAddMeal();
 }
 
 $(watchForm);
-$(watchAddMeal);
+
