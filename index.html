@@ -11,9 +11,9 @@
     <main role="main">
       <h1>Weather VS Meal</h1>
       
-      <section class="weather">
+      <section class="weather" role="region">
         <h2 id="intro">Can't decide what to eat for dinner?</h2>
-        <form role="searchbox" class="form-container" id="search-meal" action="/some-server-endpoint">
+        <form  class="form-container" id="search-meal" action="/some-server-endpoint">
           <fieldset>
             <legend>Search Weather</legend>
             <label>City name:
@@ -34,13 +34,13 @@
           <div id="result-weather" aria-live="polite"></div> 
           
         </section>
-        <section class="results hidden meal-plan" role="contentinfo">
+        <section class="results hidden meal-plan" role="region">
           <h2>Your Meal plan</h2>
           <button class="open-button" onclick="openForm()">add another meal</button>
           
           <p id="total-cal" aria-live="polite"></p>
           
-          <div class="form-popup" id="add-meal-container">
+          <div class="form-popup" id="add-meal-container" role="searchbox">
             <form action="/some-server-endpoint" class="form-container" id="submit-add-meal">
               <h2>Search Meal</h2>
 
