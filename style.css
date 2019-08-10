@@ -58,7 +58,7 @@ html body{
   background-color: aquamarine;
   color: black;
   text-align: center;
-  padding: 10px 18px;
+  padding: 8px 14px;
   text-decoration: none;
   display: inline-block;
 }
@@ -170,6 +170,7 @@ fieldset{
   }
   .food-info img{
     width: 100%;
+    max-width: 300px;
   }
   #add-meal-container{
     border: 0;
