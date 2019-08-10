@@ -15,6 +15,7 @@
         <h2 id="intro">Can't decide what to eat for dinner?</h2>
         <form class="form-container" id="search-meal" action="/some-server-endpoint">
           <fieldset>
+            <legend>Search Weather</legend>
             <label>City name:
             <input id="js-city" name="js-city" type="text" placeholder="new york" required/>
             </label>
@@ -30,14 +31,14 @@
       <p id="js-error-message-food" class="error-message"></p>
       <div class="display">
         <section class="results hidden display-weather">
-          <p id="result-weather"></p> 
+          <div id="result-weather"></div> 
           
         </section>
         <section class="results hidden meal-plan">
           <h2>Your Meal plan</h2>
           <button class="open-button" onclick="openForm()">add another meal</button>
           <button id="analyze">analyze</button>
-          <h4 id="total-cal"></h4>
+          <p id="total-cal"></p>
           
           <div class="form-popup" id="add-meal-container">
             <form action="/some-server-endpoint" class="form-container" id="submit-add-meal">
