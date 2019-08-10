@@ -8,12 +8,12 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <main>
-      <h1 role="title">Weather VS Meal</h1>
+    <main role="main">
+      <h1>Weather VS Meal</h1>
       
-      <section class="weather" role="weather search">
+      <section class="weather">
         <h2 id="intro">Can't decide what to eat for dinner?</h2>
-        <form class="form-container" id="search-meal" action="/some-server-endpoint">
+        <form role="searchbox" class="form-container" id="search-meal" action="/some-server-endpoint">
           <fieldset>
             <legend>Search Weather</legend>
             <label>City name:
@@ -27,14 +27,14 @@
         </form>
       </section>
       
-      <p id="js-error-message-weather" class="error-message" role="error message" aria-live="polite"></p>
-      <p id="js-error-message-food" class="error-message" role="error message" aria-live="polite"></p>
-      <div class="display" role="content" >
+      <p id="js-error-message-weather" class="error-message" role="alertdialog" aria-live="polite"></p>
+      <p id="js-error-message-food" class="error-message" role="alertdialog" aria-live="polite"></p>
+      <div class="display"  >
         <section class="results hidden display-weather">
           <div id="result-weather" aria-live="polite"></div> 
           
         </section>
-        <section class="results hidden meal-plan">
+        <section class="results hidden meal-plan" role="contentinfo">
           <h2>Your Meal plan</h2>
           <button class="open-button" onclick="openForm()">add another meal</button>
           
@@ -60,7 +60,7 @@
             </form>
           </div>
             
-          <ul id="meal-list" role="meal content" aria-live="polite">
+          <ul id="meal-list" role="listbox" aria-live="polite">
           </ul>
           
           
